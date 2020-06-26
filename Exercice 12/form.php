@@ -1,5 +1,17 @@
 <?php
 
+//Connexion à la bdd
+try{
+    $bdd = new PDO('mysql:host=localhost; dbname=revision_php; charset=utf8', 'root', '');
+
+    //affichage des erreurs SQL s'il y en a
+    $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(Exception $e){
+    die('Problème de connexion à la BDD : ' . $e->getMessage());
+}
+
+
+
 //1ère étape: appel des variables
 if(
     isset($_POST['name']) &&
@@ -21,15 +33,7 @@ if(
     //3è étape: Si pas d'erreurs
     if(!isset($errors)){
 
-        //Connexion à la bdd
-        try{
-            $bdd = new PDO('mysql:host=localhost; dbname=revision_php; charset=utf8', 'root', '');
-
-            //affichage des erreurs SQL s'il y en a
-            $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(Exception $e){
-            die('Problème de connexion à la BDD : ' . $e->getMessage());
-        }
+        
 
         //Requête préparée pour insertion d'un nouvel animal 
         $response = $bdd->prepare('INSERT INTO animals(name, species, birthdate) VALUES(?, ?, ?)');
@@ -49,11 +53,20 @@ if(
             $errors[] = "Problème avec la base de données, veuillez ré-essayer !";
         }
 
+        
+
         //Fermeture de la requête
         $response->closeCursor();
 
     }
 }
+
+$response = $bdd->query('SELECT * FROM animals');
+
+$animals = $response->fetchAll(PDO::FETCH_ASSOC);
+
+$response->closeCursor();
+
 
 ?>
 <!DOCTYPE html>
@@ -92,5 +105,26 @@ if(
     }
     ?>
 
+    <!--Ma liste d'animaux-->
+    <h1 style="text-align:center">Animaux déjà enregistrés</h1>
+    <?php
+    if(empty($animals)){
+        echo '<p style="text-align: center; color: red;">Votre liste d\'animaux est encore vide pour le moment.</p>';
+    } else{
+        ?>
+        <ul>
+            <?php
+            foreach($animals as $animal){
+                echo '<li>Nom: '. $animal['name'] . '</li>';
+                echo '<li>Espèce: '. $animal['species'] . '</li>';
+                echo '<li>Date de naissance: '. $animal['birthdate'] . '</li>';
+            }
+            ?>
+        </ul>
+        <?php
+        
+    }
+
+    ?>
 </body>
 </html>
