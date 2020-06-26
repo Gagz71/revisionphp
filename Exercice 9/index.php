@@ -9,8 +9,17 @@ Exercice : Créer une fonction censor() qui prend 1 argument de type "string" et
 
 // Fonction à créer ici
 //-------------------------------------------------------------------------
+function censor(string $stringToCensor){
+    $wordToReplace = array('idiot', 'ANDOUILLE', 'stupide');
+    $newOccurence = '*****';
+    if($wordToReplace){
+        return str_replace($wordToReplace, $newOccurence, $stringToCensor);
+    }
+}
 
-
+/**
+ * str_replace('chat', 'chien', 'Le chat aime les arbres') : remplace un mot par un autre dans une chaîne de texte et retourne la nouvelle chaîne, sans modifier l'actuelle (l'exemple retournera "Le chien aime les arbres")
+ */
 
 
 
