@@ -9,7 +9,9 @@ Exercice : Créer une fonction biggestOf() qui prend 2 arguments de type "int". 
 
 // Fonction à créer ici
 //-------------------------------------------------------------------------
-
+function biggestOf(int $number1, int $number2){
+    return max($number1, $number2);
+}
 
 
 
