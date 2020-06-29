@@ -128,7 +128,7 @@ array_multisort($species, SORT_ASC, $names, SORT_ASC, $animals);
         <?php
 
         // Si il y a des animaux
-        if(empty($animals)){
+        if(!empty($animals)){
             ?>
             <table>
                 <thead>

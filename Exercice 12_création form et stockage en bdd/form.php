@@ -75,6 +75,44 @@ $response->closeCursor();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exercice Révision PHP BDD Insertion Form</title>
+    <style>
+
+    body{font-family: sans-serif;margin:0;padding:0;}
+
+    p.error{
+        color: red;
+        text-align: center;
+        font-size: 1.4rem;
+    }
+
+    h1.main-title{
+            text-align: center;
+    }
+
+    div.container{
+        margin: 40px;
+    }
+
+    div.container table{
+        margin: auto;
+        border: medium solid #6495ed;
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+    div.container table tr th {
+        border: thin solid #6495EE;
+        padding: 10px;
+        min-width: 150px;
+        background-color: #D0E3FA;
+    }
+
+    div.container table tr td {
+        border: 1px solid #6495EE;
+        padding: 8px;
+    }
+
+    </style>
 </head>
 <body>
 
@@ -83,18 +121,18 @@ $response->closeCursor();
     //Sil y a des erreurs on les affiche
     if(isset($errors)){
         foreach($errors as $error){
-            echo '<p style="color:red;">'. $error . '</p>';
+            echo '<p class="error">'. $error . '</p>';
         } 
     }
 
     //S'il n'y a pas d'erreur et que successMessage existe, on l'affiche et on masque le formulaire
     if(isset($successMessage)){
-        echo '<p style="color:green;">'. htmlspecialchars($successMessage) . '</p>';
+        echo '<p class="success">'. htmlspecialchars($successMessage) . '</p>';
     } else{
         ?>
 
         <!--Mon Formulaire-->
-        <h1 style="text-align: center">Ajouter un nouvel animal dans la base de données</h1>
+        <h1 class="main-title">Ajouter un nouvel animal dans la base de données</h1>
         <form action="" method="POST">Insérer un animal : 
             <input type="text" name="name" placeholder="nom">
             <input type="text" name="species" placeholder="espèce">
@@ -106,25 +144,46 @@ $response->closeCursor();
     ?>
 
     <!--Ma liste d'animaux-->
-    <h1 style="text-align:center">Animaux déjà enregistrés</h1>
-    <?php
-    if(empty($animals)){
-        echo '<p style="text-align: center; color: red;">Votre liste d\'animaux est encore vide pour le moment.</p>';
-    } else{
-        ?>
-        <ul>
-            <?php
-            foreach($animals as $animal){
-                echo '<li>Nom: '. $animal['name'] . '</li>';
-                echo '<li>Espèce: '. $animal['species'] . '</li>';
-                echo '<li>Date de naissance: '. $animal['birthdate'] . '</li>';
-            }
-            ?>
-        </ul>
+    <h1 class="main-title">Animaux déjà enregistrés</h1>
+    
+    <div class="container">
+    
         <?php
-        
-    }
+        if(empty($animals)){
+            echo '<p class="error">Votre liste d\'animaux est encore vide pour le moment.</p>';
+        } else{
+            ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Espèce</th>
+                        <th>Date de naissance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach($animals as $animal){
+                        echo '
+                            <tr>
+                                <td>' . $animal['name'] . '</td>
+                                <td>' . $animal['species'] . '</td>
+                                <td>' . $animal['birthdate'] . '</td>
+                            </tr>';
 
-    ?>
+                    }
+                    ?>
+
+                </tbody>
+            </table>
+            
+                
+                    
+            
+            
+            <?php       
+        }
+        ?>
+    </div>
 </body>
 </html>
